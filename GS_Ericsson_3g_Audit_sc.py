@@ -174,9 +174,14 @@ def GS_Audit_Ericsson3g(par_file, input_folder):
     writer = pandas.ExcelWriter(input_folder+'CM_Parameter_Audits.xlsx')
     parameters.to_excel(writer, 'Parameter_audit', index=False)
     par_celdas.to_excel(writer,'Parameter_Audit_Cell', index=False)
-    writer.save()
-    print "Proces" \
-          " dfdfdf Finished"
+    try:
+        writer.save()
+    except:
+        print ' The file exceed the number of rows of excel file, the data will be saved in %sCM_Parameter_Audits_Parameter_Audit_Cells.txt' %(input_folder)
+        filenam = input_folder + 'CM_Parameter_Audits_summary.txt'
+        parameters.to_csv(filenam, header=True, index=False,low_memory=False,chunksize=100)
+        par_celdas.to_csv(input_folder+'CM_Parameter_Audit_Cells.txt', header=True, index=False,low_memory=False,chunksize=100)
+    print "Process Finished"
 
 
 
